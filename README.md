@@ -16,6 +16,7 @@ Esta API permite a pesquisa de artistas, álbuns e músicas usando a API do Deez
       "name": "Nome do Artista", // -> OBRIGATÓRIO
       "color": "Cor em hexadecimal", // Padrão é "#FEB029"
       "opacity": "Opacidade (0 a 100)", // Padrão é 15%
+      "pattern": "Valor de 1 a 6", // Padrão é 1
       "icon": "URL do ícone do artista" // -> OBRIGATÓRIO
     },
     "songs": [ // -> OBRIGATÓRIO
