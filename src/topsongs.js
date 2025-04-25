@@ -25,7 +25,6 @@ router.post("/canvas", async (req, res) => {
 
     const imgPath = path.join(__dirname, "..", "images", "canvas.png");
     const numbersPath = path.join(__dirname, "..", "images", "numbers.png");
-    const svgPath = path.join(__dirname, "..", "images", "tipo.svg");
     const canvas = createCanvas(1080, 1920);
     const ctx = canvas.getContext("2d");
 
@@ -39,12 +38,33 @@ router.post("/canvas", async (req, res) => {
         // Preenche o canvas com a imagem
         ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
+        // Determina o caminho do SVG com base no tipo recebido
+        const svgFillList = ['3', '4'];
+        const svgType = body.artist?.pattern || "1"; // Padrão para '1' se não especificado
+
+        console.log(svgType);
+        console.log(typeof svgType);
+
+        const svgPath = path.join(
+            __dirname,
+            "..",
+            "images",
+            `tipo${String(svgType) === "1" ? "" : `_${svgType}`}.svg`
+        );
+
         const modifiedSVG = loadSVGAndChangeColor(
             svgPath,
             body.artist.color,
-            body.artist.opacity
+            body.artist.opacity,
+            !!svgFillList.includes(String(svgType))
         );
-        await drawSVGOnCanvas(canvas, ctx, modifiedSVG, 0, 433, 1080, 1700);
+
+        if (String(svgType) === "1") {
+            await drawSVGOnCanvas(canvas, ctx, modifiedSVG, 0, 433, 1080, 1700);
+        } else {
+            await drawSVGOnCanvas(canvas, ctx, modifiedSVG, 0, 0, 1080, 1920);
+        }
+
         ctx.drawImage(numbersImage, 85, 1025, 80, 700);
         ctx.font = "48px Montserrat";
         ctx.fillStyle = "#FFFFFF33";
@@ -194,7 +214,7 @@ function drawAlbumNameWithEllipsis(ctx, text, x, y, maxWidth) {
     ctx.fillText(text, x, y);
 }
 
-function loadSVGAndChangeColor(svgPath, newColor = "FEB029", opacity = "20") {
+function loadSVGAndChangeColor(svgPath, newColor = "b22222", opacity = "20", hasFill = false) {
     // Carregar o arquivo SVG local como texto
     let svg = fs.readFileSync(svgPath, "utf8");
     newColor = newColor.replace("#", "");
@@ -204,7 +224,14 @@ function loadSVGAndChangeColor(svgPath, newColor = "FEB029", opacity = "20") {
         .toUpperCase()}`;
 
     // Substituir a cor original pelo novo valor (modifica o atributo 'fill')
-    svg = svg.replace(/stroke="[^"]*"/g, `stroke="${color}"`);
+    // Replace stroke color and add stroke-opacity
+    if (hasFill) {
+        svg = svg.replace(/fill="[^"]*"/g, `fill="#${newColor}" fill-opacity="${opacity / 100}"`);
+        svg = svg.replace(/stroke="[^"]*"/g, `stroke="#${newColor}" stroke-opacity="${opacity / 100}"`);
+    } else {
+        svg = svg.replace(/stroke="[^"]*"/g, `stroke="#${newColor}" stroke-opacity="${opacity / 100}"`);
+    }
+    // Replace fill color and add fill-opacity
 
     return svg; // Retorna o SVG modificado
 }
