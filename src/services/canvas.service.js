@@ -9,11 +9,14 @@ import {
     drawSVG,
 } from "../utils/canvas-helpers.js";
 
-// Inicializa a fonte Montserrat
+// Inicializa a fonte Montserrat, sans-serif
 initFonts();
 
 export const canvasService = {
     async generateTopSongsImage({ layout = "vertical", artist = {}, songs = [] }) {
+        // Garante registro das fontes no runtime/cold start
+        initFonts();
+
         const normalizedLayout = String(layout || "vertical").toLowerCase();
 
         // 1. Download paralelo dos assets remotos (ícone do artista e capas das músicas)
@@ -79,7 +82,7 @@ async function renderVerticalLayout(artist, songsList, artistImage, songImages, 
     }
 
     // Watermark
-    ctx.font = "48px Montserrat";
+    ctx.font = "48px Montserrat, sans-serif";
     ctx.fillStyle = "#FFFFFF33";
     ctx.textAlign = "start";
     ctx.fillText("topSongs", 820, 1890);
@@ -100,7 +103,7 @@ async function renderVerticalLayout(artist, songsList, artistImage, songImages, 
         : "#FFFFFF";
 
     drawTextWithEllipsis(ctx, artist.name || "", canvas.width / 2, 840, 960, {
-        font: "bold 76px Montserrat",
+        font: "bold 76px Montserrat, sans-serif",
         color: artistNameColor,
         align: "center",
     });
@@ -118,12 +121,12 @@ async function renderVerticalLayout(artist, songsList, artistImage, songImages, 
         }
 
         drawTextWithEllipsis(ctx, song?.title || "", 372, y + 50, 590, {
-            font: "bold 40px Montserrat",
+            font: "bold 40px Montserrat, sans-serif",
             color: "white",
         });
 
         drawTextWithEllipsis(ctx, song?.albumTitle || "", 372, y + 100, 590, {
-            font: "32px Montserrat",
+            font: "32px Montserrat, sans-serif",
             color: "#A0A0A0",
         });
     }
@@ -168,7 +171,7 @@ async function renderHorizontalLayout(artist, songsList, artistImage, songImages
         : "#FFFFFF";
 
     drawTextWithEllipsis(ctx, artist.name || "", leftCenterX, 680, 680, {
-        font: "bold 64px Montserrat",
+        font: "bold 64px Montserrat, sans-serif",
         color: artistNameColor,
         align: "center",
     });
@@ -179,13 +182,13 @@ async function renderHorizontalLayout(artist, songsList, artistImage, songImages
         : "#FEB029";
 
     drawTextWithEllipsis(ctx, "TOP 5 SELECTIONS", leftCenterX, 740, 400, {
-        font: "24px Montserrat",
+        font: "24px Montserrat, sans-serif",
         color: tagColor,
         align: "center",
     });
 
     // Watermark
-    ctx.font = "38px Montserrat";
+    ctx.font = "38px Montserrat, sans-serif";
     ctx.fillStyle = "#FFFFFF33";
     ctx.textAlign = "center";
     ctx.fillText("topSongs", leftCenterX, 980);
@@ -209,7 +212,7 @@ async function renderHorizontalLayout(artist, songsList, artistImage, songImages
         const songImg = songImages[i];
 
         // Número da faixa
-        ctx.font = "bold 44px Montserrat";
+        ctx.font = "bold 44px Montserrat, sans-serif";
         ctx.fillStyle = "#FFFFFF44";
         ctx.textAlign = "center";
         ctx.fillText(String(i + 1), 820, y + 70);
@@ -221,12 +224,12 @@ async function renderHorizontalLayout(artist, songsList, artistImage, songImages
 
         // Título e Álbum
         drawTextWithEllipsis(ctx, song?.title || "", 1010, y + 48, 860, {
-            font: "bold 38px Montserrat",
+            font: "bold 38px Montserrat, sans-serif",
             color: "white",
         });
 
         drawTextWithEllipsis(ctx, song?.albumTitle || "", 1010, y + 92, 860, {
-            font: "30px Montserrat",
+            font: "30px Montserrat, sans-serif",
             color: "#A0A0A0",
         });
     }
@@ -268,7 +271,7 @@ async function renderSquareLayout(artist, songsList, artistImage, songImages, sv
 
     // Tag
     drawTextWithEllipsis(ctx, "TOP 5 ARTIST TRACKS", 290, 105, 500, {
-        font: "20px Montserrat",
+        font: "20px Montserrat, sans-serif",
         color: tagColor,
     });
 
@@ -278,13 +281,13 @@ async function renderSquareLayout(artist, songsList, artistImage, songImages, sv
         : "#FFFFFF";
 
     drawTextWithEllipsis(ctx, artist.name || "", 290, 165, 720, {
-        font: "bold 58px Montserrat",
+        font: "bold 58px Montserrat, sans-serif",
         color: artistNameColor,
     });
 
     // Subtítulo
     drawTextWithEllipsis(ctx, "As faixas mais tocadas", 290, 215, 600, {
-        font: "24px Montserrat",
+        font: "24px Montserrat, sans-serif",
         color: "rgba(255, 255, 255, 0.6)",
     });
 
@@ -307,7 +310,7 @@ async function renderSquareLayout(artist, songsList, artistImage, songImages, sv
         const songImg = songImages[i];
 
         // Número da posição
-        ctx.font = "bold 34px Montserrat";
+        ctx.font = "bold 34px Montserrat, sans-serif";
         ctx.fillStyle = "#FFFFFF44";
         ctx.textAlign = "center";
         ctx.fillText(String(i + 1), 100, y + 54);
@@ -319,18 +322,18 @@ async function renderSquareLayout(artist, songsList, artistImage, songImages, sv
 
         // Título e Álbum
         drawTextWithEllipsis(ctx, song?.title || "", 250, y + 36, 750, {
-            font: "bold 32px Montserrat",
+            font: "bold 32px Montserrat, sans-serif",
             color: "white",
         });
 
         drawTextWithEllipsis(ctx, song?.albumTitle || "", 250, y + 74, 750, {
-            font: "26px Montserrat",
+            font: "26px Montserrat, sans-serif",
             color: "#A0A0A0",
         });
     }
 
     // Watermark
-    ctx.font = "28px Montserrat";
+    ctx.font = "28px Montserrat, sans-serif";
     ctx.fillStyle = "#FFFFFF33";
     ctx.textAlign = "end";
     ctx.fillText("topSongs", 1010, 1045);

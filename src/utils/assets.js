@@ -6,23 +6,56 @@ import { GlobalFonts } from "@napi-rs/canvas";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Busca caminho de assets de forma compatível com execução Local e Serverless
+// Busca caminho de assets de forma compatível com execução Local e Serverless (AWS Lambda / Vercel)
 export function getAssetPath(...segments) {
-    const cwdPath = path.join(process.cwd(), ...segments);
-    if (fs.existsSync(cwdPath)) return cwdPath;
+    const candidateBases = [
+        process.cwd(),
+        path.join(process.cwd(), "topsongs-api"),
+        path.resolve(__dirname, "..", ".."),
+        path.resolve(__dirname, ".."),
+        path.resolve(__dirname),
+        "/var/task",
+        "/var/task/topsongs-api",
+    ];
 
-    const relPath = path.join(__dirname, "..", "..", ...segments);
-    if (fs.existsSync(relPath)) return relPath;
+    for (const base of candidateBases) {
+        try {
+            const candidate = path.join(base, ...segments);
+            if (fs.existsSync(candidate)) {
+                return candidate;
+            }
+        } catch {
+            // Continua testando os próximos caminhos candidatos
+        }
+    }
 
-    return cwdPath;
+    // Retorna fallback padrão
+    return path.join(process.cwd(), ...segments);
 }
 
-// Inicializa a fonte Montserrat
+// Inicializa a fonte Montserrat de forma resiliente
 export function initFonts() {
-    const fontPath = getAssetPath("fonts", "Montserrat.ttf");
-    if (fs.existsSync(fontPath) && !GlobalFonts.has("Montserrat")) {
-        GlobalFonts.registerFromPath(fontPath, "Montserrat");
+    try {
+        if (GlobalFonts.has("Montserrat")) {
+            return true;
+        }
+
+        const fontPath = getAssetPath("fonts", "Montserrat.ttf");
+        if (fs.existsSync(fontPath)) {
+            try {
+                GlobalFonts.registerFromPath(fontPath, "Montserrat");
+                return true;
+            } catch {
+                // Tenta fallback com buffer direto caso o path falhe
+                const buffer = fs.readFileSync(fontPath);
+                GlobalFonts.register(buffer, "Montserrat");
+                return true;
+            }
+        }
+    } catch (err) {
+        console.warn("Aviso ao inicializar fontes:", err.message);
     }
+    return false;
 }
 
 // Carrega o arquivo SVG correspondente ao padrão (1 a 12) e aplica as cores/opacidade

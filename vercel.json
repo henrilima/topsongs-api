@@ -7,6 +7,9 @@
     }
   ],
   "functions": {
+    "api/**/*.js": {
+      "includeFiles": "fonts/**,images/**"
+    },
     "api/index.js": {
       "includeFiles": "fonts/**,images/**"
     }

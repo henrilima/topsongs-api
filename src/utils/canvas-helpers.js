@@ -8,7 +8,7 @@ export function drawTextWithEllipsis(
     x,
     y,
     maxWidth,
-    { font = "32px Montserrat", color = "white", align = "start" } = {}
+    { font = "32px Montserrat, sans-serif", color = "white", align = "start" } = {}
 ) {
     if (!text && text !== 0) return;
 
@@ -145,13 +145,20 @@ export async function fetchImageBuffer(url) {
     }
 }
 
-// Renderiza um SVG diretamente no canvas com escala customizada
+// Renderiza um SVG diretamente no canvas com escala customizada (suporte dual: Buffer e Data URI)
 export async function drawSVG(ctx, svgString, x, y, width, height) {
     if (!svgString) return;
     try {
         const img = await loadImage(Buffer.from(svgString));
         ctx.drawImage(img, x, y, width, height);
     } catch (e) {
-        console.warn("Aviso ao carregar SVG no canvas:", e.message);
+        try {
+            // Fallback robusto para Data URI base64
+            const base64 = Buffer.from(svgString).toString("base64");
+            const img = await loadImage(`data:image/svg+xml;base64,${base64}`);
+            ctx.drawImage(img, x, y, width, height);
+        } catch (errFallback) {
+            console.warn("Aviso ao carregar SVG no canvas:", e.message, errFallback.message);
+        }
     }
 }
