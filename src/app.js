@@ -1,5 +1,9 @@
 import express from "express";
 import cors from "cors";
+import fs from "node:fs";
+import path from "node:path";
+import { GlobalFonts } from "@napi-rs/canvas";
+import { getAssetPath } from "./utils/assets.js";
 
 import deezerRoutes from "./routes/deezer.routes.js";
 import topsongsRoutes from "./routes/topsongs.routes.js";
@@ -10,6 +14,27 @@ const app = express();
 // Middlewares
 app.use(cors());
 app.use(express.json());
+
+// Rota de diagnóstico
+app.get("/debug", (req, res) => {
+    try {
+        const cwd = process.cwd();
+        const fontPath = getAssetPath("fonts", "Montserrat.ttf");
+        const svgPath = getAssetPath("images", "tipo.svg");
+        res.json({
+            cwd,
+            cwdFiles: fs.existsSync(cwd) ? fs.readdirSync(cwd) : [],
+            taskFiles: fs.existsSync("/var/task") ? fs.readdirSync("/var/task") : [],
+            fontPath,
+            fontExists: fs.existsSync(fontPath),
+            svgPath,
+            svgExists: fs.existsSync(svgPath),
+            globalFonts: GlobalFonts.families ? GlobalFonts.families : [],
+        });
+    } catch (e) {
+        res.status(500).json({ error: e.message, stack: e.stack });
+    }
+});
 
 // Rota raiz com documentação e catálogo de endpoints disponíveis
 app.get("/", (req, res) => {
