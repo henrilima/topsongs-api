@@ -6,6 +6,28 @@ import { GlobalFonts } from "@napi-rs/canvas";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Referências estáticas literais para garantir que o `@vercel/nft` (Node File Trace)
+// reconheça e empacote todos os assets estáticos no bundle da Serverless Function da Vercel
+const STATIC_ASSET_PATHS = [
+    path.join(process.cwd(), "fonts/Montserrat.ttf"),
+    path.join(__dirname, "../../fonts/Montserrat.ttf"),
+    path.join(process.cwd(), "images/numbers.png"),
+    path.join(process.cwd(), "images/tipo.svg"),
+    path.join(process.cwd(), "images/tipo_2.svg"),
+    path.join(process.cwd(), "images/tipo_3.svg"),
+    path.join(process.cwd(), "images/tipo_4.svg"),
+    path.join(process.cwd(), "images/tipo_5.svg"),
+    path.join(process.cwd(), "images/tipo_6.svg"),
+    path.join(process.cwd(), "images/tipo_7.svg"),
+    path.join(process.cwd(), "images/tipo_8.svg"),
+    path.join(process.cwd(), "images/tipo_9.svg"),
+    path.join(process.cwd(), "images/tipo_10.svg"),
+    path.join(process.cwd(), "images/tipo_11.svg"),
+    path.join(process.cwd(), "images/tipo_12.svg"),
+    path.join(__dirname, "../../images/numbers.png"),
+    path.join(__dirname, "../../images/tipo.svg"),
+];
+
 // Busca caminho de assets de forma compatível com execução Local e Serverless (AWS Lambda / Vercel)
 export function getAssetPath(...segments) {
     const candidateBases = [
@@ -25,11 +47,10 @@ export function getAssetPath(...segments) {
                 return candidate;
             }
         } catch {
-            // Continua testando os próximos caminhos candidatos
+            // Continua testando
         }
     }
 
-    // Retorna fallback padrão
     return path.join(process.cwd(), ...segments);
 }
 
@@ -40,16 +61,25 @@ export function initFonts() {
             return true;
         }
 
-        const fontPath = getAssetPath("fonts", "Montserrat.ttf");
-        if (fs.existsSync(fontPath)) {
+        const candidatePaths = [
+            path.join(process.cwd(), "fonts/Montserrat.ttf"),
+            path.join(process.cwd(), "fonts", "Montserrat.ttf"),
+            path.join(__dirname, "../../fonts/Montserrat.ttf"),
+            path.join(__dirname, "../fonts/Montserrat.ttf"),
+            path.join(__dirname, "fonts/Montserrat.ttf"),
+            "/var/task/fonts/Montserrat.ttf",
+            "/var/task/topsongs-api/fonts/Montserrat.ttf",
+        ];
+
+        for (const fontPath of candidatePaths) {
             try {
-                GlobalFonts.registerFromPath(fontPath, "Montserrat");
-                return true;
+                if (fs.existsSync(fontPath)) {
+                    const buffer = fs.readFileSync(fontPath);
+                    GlobalFonts.register(buffer, "Montserrat");
+                    return true;
+                }
             } catch {
-                // Tenta fallback com buffer direto caso o path falhe
-                const buffer = fs.readFileSync(fontPath);
-                GlobalFonts.register(buffer, "Montserrat");
-                return true;
+                // Tenta próximo
             }
         }
     } catch (err) {
@@ -63,16 +93,37 @@ export function getColoredSVG(svgType = "1", colorHex = "b22222", opacity = "20"
     const svgFillList = ["3", "4"];
     let typeStr = String(svgType || "1");
     let svgFileName = `tipo${typeStr === "1" ? "" : `_${typeStr}`}.svg`;
-    let svgPath = getAssetPath("images", svgFileName);
 
-    // Fallback para tipo.svg se o padrão solicitado não existir
-    if (!fs.existsSync(svgPath)) {
-        typeStr = "1";
-        svgPath = getAssetPath("images", "tipo.svg");
-        if (!fs.existsSync(svgPath)) return null;
+    const candidatePaths = [
+        path.join(process.cwd(), "images", svgFileName),
+        path.join(process.cwd(), "images/" + svgFileName),
+        path.join(__dirname, "../../images", svgFileName),
+        path.join(__dirname, "../../images/" + svgFileName),
+        path.join(__dirname, "../images", svgFileName),
+        `/var/task/images/${svgFileName}`,
+        `/var/task/topsongs-api/images/${svgFileName}`,
+        // Fallbacks
+        path.join(process.cwd(), "images/tipo.svg"),
+        path.join(__dirname, "../../images/tipo.svg"),
+        "/var/task/images/tipo.svg",
+    ];
+
+    let svg = null;
+    for (const p of candidatePaths) {
+        try {
+            if (fs.existsSync(p)) {
+                svg = fs.readFileSync(p, "utf8");
+                break;
+            }
+        } catch {
+            // Continua
+        }
     }
 
-    let svg = fs.readFileSync(svgPath, "utf8");
+    if (!svg) {
+        return null;
+    }
+
     const cleanColor = (colorHex || "b22222").replace("#", "");
     const opacityValue = opacity ? Number(opacity) / 100 : 0.2;
     const hasFill = svgFillList.includes(typeStr);
