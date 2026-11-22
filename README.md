@@ -1,116 +1,76 @@
-# API de dados de artistas e músicas (Consumindo a API da Deezer)
-Esta API permite a pesquisa de artistas, álbuns e músicas usando a API do Deezer. Além disso, a API oferece a funcionalidade de gerar uma imagem de canvas personalizada com informações sobre os artistas e suas principais músicas.
+# TopSongs API (Consumindo a API da Deezer)
 
-## Funcionalidades
-- **Teste da API**: Acesse `GET /api/` ou `GET /topsongs/` para verificar se a API está funcionando corretamente.
-- **Buscar Artistas**: Utilize o endpoint `GET /api/artists?q={nome_do_artista}` para encontrar artistas com base no nome fornecido.
-- **Informações do Artista**: Use `GET /api/artistinfo?q={id_do_artista}` para obter detalhes de um artista específico.
-- **Buscar Álbuns**: Com `GET /api/albums?q={id_do_artista}`, você pode obter os álbuns de um artista pelo ID.
-- **Buscar Faixas**: O endpoint `GET /api/tracks?q={nome_da_faixa}` permite buscar faixas pela consulta do nome.
-- **Lista de Faixas do Álbum**: O endpoint `GET /api/tracklist?q={id_do_album}` retorna a lista de faixas de um álbum específico.
-- **Geração de Canvas**: O endpoint `POST /canvas` cria uma imagem personalizada no formato PNG com detalhes do artista e suas cinco principais músicas, retornada como Blob. Para gerar o canvas, envie um corpo JSON contendo as seguintes propriedades:
+API para pesquisa de artistas, álbuns e faixas utilizando a API da Deezer, com funcionalidade de geração de imagem personalizada (Canvas em alta definição) com informações e capa do artista e suas principais músicas.
 
-  ```json5
-  {
-    "artist": {
-      "name": "Nome do Artista", // -> OBRIGATÓRIO
-      "color": "Cor em hexadecimal", // Padrão é "#FEB029"
-      "opacity": "Opacidade (0 a 100)", // Padrão é 15%
-      "pattern": "Valor de 1 a 6", // Padrão é 1
-      "icon": "URL do ícone do artista" // -> OBRIGATÓRIO
-    },
-    "songs": [ // -> OBRIGATÓRIO
-      {
-        "title": "Título da Música 1", // -> OBRIGATÓRIO
-        "albumTitle": "Título do Álbum 1", // -> OBRIGATÓRIO
-        "coverAlbum": "URL da Capa do Álbum 1" // -> OBRIGATÓRIO
-      },
-      {
-        "title": "Título da Música 2", // "
-        "albumTitle": "Título do Álbum 2", // "
-        "coverAlbum": "URL da Capa do Álbum 2" // "
-      },
-      {
-        "title": "Título da Música 3", // "
-        "albumTitle": "Título do Álbum 3", // "
-        "coverAlbum": "URL da Capa do Álbum 3" // "
-      },
-      {
-        "title": "Título da Música 4", // "
-        "albumTitle": "Título do Álbum 4", // "
-        "coverAlbum": "URL da Capa do Álbum 4" // "
-      },
-      {
-        "title": "Título da Música 5", // "
-        "albumTitle": "Título do Álbum 5", // "
-        "coverAlbum": "URL da Capa do Álbum 5" // "
-      }
-    ]
-  }
-  ```
+## Funcionalidades e Rotas
 
-## Como Usar
-1. **Clone o repositório**:
- ```
- git clone https://github.com/henrilima/Deezer-API.git
- ```
+- **Status da API**:
+  - `GET /`: Status geral da API e catálogo interativo de rotas.
+  - `GET /api`: Status do módulo Deezer.
+  - `GET /topsongs`: Status do módulo TopSongs.
+- **Deezer**:
+  - `GET /api/artists?q={nome}`: Busca de artistas.
+  - `GET /api/artistinfo?q={id}`: Informações detalhadas do artista.
+  - `GET /api/albums?q={id}`: Lista de álbuns de um artista.
+  - `GET /api/tracks?q={nome}`: Busca de faixas por nome.
+  - `GET /api/tracklist?q={id_album}`: Lista de músicas de um álbum.
+- **TopSongs Canvas**:
+  - `POST /topsongs/canvas` (ou `POST /api/canvas`): Gera a imagem PNG personalizada (1080x1920).
 
-2. **Instale as dependências**:
- ```
- yarn install
- ```
+### Exemplo de Corpo JSON (`POST /topsongs/canvas`):
+
+```json
+{
+  "artist": {
+    "name": "Coldplay",
+    "bodyColor": "#0E131F",
+    "color": "#3498db",
+    "opacity": "25",
+    "pattern": "1",
+    "icon": "https://e-cdns-images.dzcdn.net/.../artist.jpg"
+  },
+  "songs": [
+    {
+      "title": "Yellow",
+      "albumTitle": "Parachutes",
+      "coverAlbum": "https://e-cdns-images.dzcdn.net/.../cover.jpg"
+    }
+  ]
+}
+```
+
+## Como Rodar Localmente (Ambiente de Desenvolvimento)
+
+1. **Instale as dependências**:
+   ```bash
+   npm install
+   ```
+
+2. **Configure a porta**:
+   O arquivo `.env` já vem pré-configurado na porta local:
+   ```env
+   PORT=3001
+   NODE_ENV=development
+   ```
 
 3. **Inicie o servidor**:
- ```
- yarn start
- ```
+   - Modo desenvolvimento (com reinicialização automática via nodemon):
+     ```bash
+     npm run dev
+     ```
+   - Modo padrão:
+     ```bash
+     npm start
+     ```
 
-#
+   A API iniciará em `http://localhost:3001`.
 
-1. **Teste a API**:
-Acesse `http://localhost:3000/api` para verificar se a API está funcionando.
+## Deploy na Vercel
 
-1. **Realize uma busca**:
-Faça uma requisição GET para `http://localhost:3000/api/artists?q={sua_consulta}` para buscar artistas, ou utilize outros endpoints conforme necessário.
-
-1. **Gere um canvas**:
-Envie uma requisição POST para `http://localhost:3000/api/canvas` com o corpo JSON mencionado acima, e passe a propriedade `responseType: "blob"`.
-
-    *Example:*
-    ```js
-    await axios.post(
-    `[http://localhost:3000/topsongs/canvas`, {
-            songs: songsList,
-            artist: {
-                ...artist,
-                color: colorHex,
-                opacity: opacityPercentage,
-            },
-        },
-        { responseType: "blob" }
-    )
-    .then(async (response) => {
-        [image].src = URL.createObjectURL(response.data);
-    })
-    .catch((error) => {
-        console.error("Erro:", error);
-    })
-    ```
-
-## Exemplo de Resposta
-Ao fazer uma requisição bem-sucedida para gerar um canvas, a resposta será uma imagem PNG/Blob contendo a arte personalizada com as informações do artista e suas músicas.
-
-## Dependências Usadas
-- Node.js
-- Express
-- Axios
-- Canvas
-- Cors
-- Url
-- Fs
-- Path
-- Body-Parser
-- Nodemon **(dev)**
+Configurado com Serverless Functions nativas e suporte às versões modernas de Node.js (22.x, 24.x, 26.x):
+- O arquivo `vercel.json` inclui rewrites direcionando o tráfego para `api/index.js` e inclui `fonts/**` e `images/**` no deploy (`includeFiles`).
+- A biblioteca `@napi-rs/canvas` garante renderização gráfica ultrarrápida sem depender de bibliotecas externas do Linux.
 
 ## Licença
+
 Este projeto está licenciado sob a [Licença Apache v2.0](LICENSE).

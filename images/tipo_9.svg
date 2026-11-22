@@ -1,0 +1,32 @@
+<svg width="1080" height="1920" viewBox="0 0 1080 1920" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="clip_tipo9">
+      <rect width="1080" height="1920" fill="white"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#clip_tipo9)">
+    <!-- Vinyl record groove ripples centered around artist avatar (540, 425) -->
+    <circle cx="540" cy="425" r="160" stroke="#B22222" stroke-width="2" stroke-opacity="0.3"/>
+    <circle cx="540" cy="425" r="220" stroke="#B22222" stroke-width="2" stroke-opacity="0.35"/>
+    <circle cx="540" cy="425" r="280" stroke="#B22222" stroke-width="2" stroke-opacity="0.4"/>
+    <circle cx="540" cy="425" r="350" stroke="#B22222" stroke-width="2.5" stroke-opacity="0.45"/>
+    <circle cx="540" cy="425" r="430" stroke="#B22222" stroke-width="2.5" stroke-opacity="0.5"/>
+    <circle cx="540" cy="425" r="520" stroke="#B22222" stroke-width="3" stroke-opacity="0.55"/>
+    <circle cx="540" cy="425" r="620" stroke="#B22222" stroke-width="3" stroke-opacity="0.6"/>
+    <circle cx="540" cy="425" r="730" stroke="#B22222" stroke-width="3.5" stroke-opacity="0.5"/>
+    <circle cx="540" cy="425" r="850" stroke="#B22222" stroke-width="3.5" stroke-opacity="0.4"/>
+    <circle cx="540" cy="425" r="980" stroke="#B22222" stroke-width="4" stroke-opacity="0.35"/>
+    <circle cx="540" cy="425" r="1120" stroke="#B22222" stroke-width="4" stroke-opacity="0.3"/>
+    <circle cx="540" cy="425" r="1280" stroke="#B22222" stroke-width="4.5" stroke-opacity="0.25"/>
+    <circle cx="540" cy="425" r="1450" stroke="#B22222" stroke-width="5" stroke-opacity="0.2"/>
+
+    <!-- Dynamic dashed radial markers (sound frequency ticks) -->
+    <circle cx="540" cy="425" r="675" stroke="#B22222" stroke-width="4" stroke-dasharray="10 25" stroke-opacity="0.4"/>
+    <circle cx="540" cy="425" r="915" stroke="#B22222" stroke-width="4" stroke-dasharray="14 35" stroke-opacity="0.35"/>
+    <circle cx="540" cy="425" r="1200" stroke="#B22222" stroke-width="5" stroke-dasharray="20 40" stroke-opacity="0.3"/>
+
+    <!-- Subtle audio coordinate lines -->
+    <line x1="540" y1="0" x2="540" y2="1920" stroke="#B22222" stroke-width="2" stroke-dasharray="8 12" stroke-opacity="0.3"/>
+    <line x1="0" y1="425" x2="1080" y2="425" stroke="#B22222" stroke-width="2" stroke-dasharray="8 12" stroke-opacity="0.3"/>
+  </g>
+</svg>

@@ -1,0 +1,43 @@
+<svg width="1080" height="1920" viewBox="0 0 1080 1920" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="clip_tipo7">
+      <rect width="1080" height="1920" fill="white"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#clip_tipo7)">
+    <!-- Equalizer sound waves and audio spectrum -->
+    <path d="M-100 960 Q 200 600, 540 960 T 1180 960" stroke="#B22222" stroke-width="4" stroke-opacity="0.8"/>
+    <path d="M-100 960 Q 200 660, 540 960 T 1180 960" stroke="#B22222" stroke-width="3" stroke-opacity="0.6"/>
+    <path d="M-100 960 Q 200 720, 540 960 T 1180 960" stroke="#B22222" stroke-width="3" stroke-opacity="0.5"/>
+    <path d="M-100 960 Q 200 780, 540 960 T 1180 960" stroke="#B22222" stroke-width="2.5" stroke-opacity="0.4"/>
+    <path d="M-100 960 Q 200 840, 540 960 T 1180 960" stroke="#B22222" stroke-width="2" stroke-opacity="0.3"/>
+    
+    <path d="M-100 960 Q 200 1320, 540 960 T 1180 960" stroke="#B22222" stroke-width="4" stroke-opacity="0.8"/>
+    <path d="M-100 960 Q 200 1260, 540 960 T 1180 960" stroke="#B22222" stroke-width="3" stroke-opacity="0.6"/>
+    <path d="M-100 960 Q 200 1200, 540 960 T 1180 960" stroke="#B22222" stroke-width="3" stroke-opacity="0.5"/>
+    <path d="M-100 960 Q 200 1140, 540 960 T 1180 960" stroke="#B22222" stroke-width="2.5" stroke-opacity="0.4"/>
+    <path d="M-100 960 Q 200 1080, 540 960 T 1180 960" stroke="#B22222" stroke-width="2" stroke-opacity="0.3"/>
+
+    <!-- Dynamic vertical equalizer bars in background -->
+    <line x1="140" y1="800" x2="140" y2="1120" stroke="#B22222" stroke-width="6" stroke-linecap="round" stroke-opacity="0.25"/>
+    <line x1="200" y1="720" x2="200" y2="1200" stroke="#B22222" stroke-width="6" stroke-linecap="round" stroke-opacity="0.35"/>
+    <line x1="260" y1="640" x2="260" y2="1280" stroke="#B22222" stroke-width="6" stroke-linecap="round" stroke-opacity="0.45"/>
+    <line x1="320" y1="760" x2="320" y2="1160" stroke="#B22222" stroke-width="6" stroke-linecap="round" stroke-opacity="0.3"/>
+    <line x1="380" y1="850" x2="380" y2="1070" stroke="#B22222" stroke-width="6" stroke-linecap="round" stroke-opacity="0.2"/>
+    <line x1="440" y1="680" x2="440" y2="1240" stroke="#B22222" stroke-width="6" stroke-linecap="round" stroke-opacity="0.4"/>
+    <line x1="500" y1="580" x2="500" y2="1340" stroke="#B22222" stroke-width="6" stroke-linecap="round" stroke-opacity="0.55"/>
+    <line x1="560" y1="520" x2="560" y2="1400" stroke="#B22222" stroke-width="8" stroke-linecap="round" stroke-opacity="0.6"/>
+    <line x1="620" y1="620" x2="620" y2="1300" stroke="#B22222" stroke-width="6" stroke-linecap="round" stroke-opacity="0.5"/>
+    <line x1="680" y1="740" x2="680" y2="1180" stroke="#B22222" stroke-width="6" stroke-linecap="round" stroke-opacity="0.35"/>
+    <line x1="740" y1="650" x2="740" y2="1270" stroke="#B22222" stroke-width="6" stroke-linecap="round" stroke-opacity="0.45"/>
+    <line x1="800" y1="780" x2="800" y2="1140" stroke="#B22222" stroke-width="6" stroke-linecap="round" stroke-opacity="0.3"/>
+    <line x1="860" y1="840" x2="860" y2="1080" stroke="#B22222" stroke-width="6" stroke-linecap="round" stroke-opacity="0.2"/>
+    <line x1="920" y1="750" x2="920" y2="1170" stroke="#B22222" stroke-width="6" stroke-linecap="round" stroke-opacity="0.35"/>
+
+    <!-- High frequency sine ripples top & bottom -->
+    <path d="M0 350 Q 270 200, 540 350 T 1080 350" stroke="#B22222" stroke-width="3" stroke-opacity="0.4"/>
+    <path d="M0 380 Q 270 230, 540 380 T 1080 380" stroke="#B22222" stroke-width="2" stroke-opacity="0.25"/>
+    <path d="M0 1600 Q 270 1750, 540 1600 T 1080 1600" stroke="#B22222" stroke-width="3" stroke-opacity="0.4"/>
+    <path d="M0 1630 Q 270 1780, 540 1630 T 1080 1630" stroke="#B22222" stroke-width="2" stroke-opacity="0.25"/>
+  </g>
+</svg>

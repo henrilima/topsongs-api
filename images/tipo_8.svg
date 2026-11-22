@@ -1,0 +1,46 @@
+<svg width="1080" height="1920" viewBox="0 0 1080 1920" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="clip_tipo8">
+      <rect width="1080" height="1920" fill="white"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#clip_tipo8)">
+    <!-- Horizon Line -->
+    <line x1="-100" y1="960" x2="1180" y2="960" stroke="#B22222" stroke-width="4" stroke-opacity="0.8"/>
+    
+    <!-- Perspective floor lines vanishing to center (540, 960) -->
+    <line x1="540" y1="960" x2="-200" y2="1920" stroke="#B22222" stroke-width="2.5" stroke-opacity="0.6"/>
+    <line x1="540" y1="960" x2="0" y2="1920" stroke="#B22222" stroke-width="2.5" stroke-opacity="0.6"/>
+    <line x1="540" y1="960" x2="180" y2="1920" stroke="#B22222" stroke-width="2.5" stroke-opacity="0.6"/>
+    <line x1="540" y1="960" x2="360" y2="1920" stroke="#B22222" stroke-width="2.5" stroke-opacity="0.6"/>
+    <line x1="540" y1="960" x2="540" y2="1920" stroke="#B22222" stroke-width="3" stroke-opacity="0.7"/>
+    <line x1="540" y1="960" x2="720" y2="1920" stroke="#B22222" stroke-width="2.5" stroke-opacity="0.6"/>
+    <line x1="540" y1="960" x2="900" y2="1920" stroke="#B22222" stroke-width="2.5" stroke-opacity="0.6"/>
+    <line x1="540" y1="960" x2="1080" y2="1920" stroke="#B22222" stroke-width="2.5" stroke-opacity="0.6"/>
+    <line x1="540" y1="960" x2="1280" y2="1920" stroke="#B22222" stroke-width="2.5" stroke-opacity="0.6"/>
+
+    <!-- Perspective floor horizontal grid intervals (logarithmic compression) -->
+    <line x1="-100" y1="980" x2="1180" y2="980" stroke="#B22222" stroke-width="1.5" stroke-opacity="0.2"/>
+    <line x1="-100" y1="1010" x2="1180" y2="1010" stroke="#B22222" stroke-width="1.5" stroke-opacity="0.25"/>
+    <line x1="-100" y1="1050" x2="1180" y2="1050" stroke="#B22222" stroke-width="1.5" stroke-opacity="0.3"/>
+    <line x1="-100" y1="1100" x2="1180" y2="1100" stroke="#B22222" stroke-width="2" stroke-opacity="0.35"/>
+    <line x1="-100" y1="1165" x2="1180" y2="1165" stroke="#B22222" stroke-width="2" stroke-opacity="0.4"/>
+    <line x1="-100" y1="1250" x2="1180" y2="1250" stroke="#B22222" stroke-width="2.5" stroke-opacity="0.45"/>
+    <line x1="-100" y1="1360" x2="1180" y2="1360" stroke="#B22222" stroke-width="2.5" stroke-opacity="0.5"/>
+    <line x1="-100" y1="1500" x2="1180" y2="1500" stroke="#B22222" stroke-width="3" stroke-opacity="0.6"/>
+    <line x1="-100" y1="1680" x2="1180" y2="1680" stroke="#B22222" stroke-width="3.5" stroke-opacity="0.7"/>
+    <line x1="-100" y1="1900" x2="1180" y2="1900" stroke="#B22222" stroke-width="4" stroke-opacity="0.8"/>
+
+    <!-- Ceiling grid vanishing upwards to (540, 960) -->
+    <line x1="540" y1="960" x2="-200" y2="0" stroke="#B22222" stroke-width="2" stroke-opacity="0.4"/>
+    <line x1="540" y1="960" x2="180" y2="0" stroke="#B22222" stroke-width="2" stroke-opacity="0.4"/>
+    <line x1="540" y1="960" x2="540" y2="0" stroke="#B22222" stroke-width="2" stroke-opacity="0.4"/>
+    <line x1="540" y1="960" x2="900" y2="0" stroke="#B22222" stroke-width="2" stroke-opacity="0.4"/>
+    <line x1="540" y1="960" x2="1280" y2="0" stroke="#B22222" stroke-width="2" stroke-opacity="0.4"/>
+
+    <!-- Geometric sun / retro disc on horizon -->
+    <circle cx="540" cy="960" r="180" stroke="#B22222" stroke-width="3" stroke-opacity="0.5"/>
+    <circle cx="540" cy="960" r="320" stroke="#B22222" stroke-width="2" stroke-opacity="0.3"/>
+    <circle cx="540" cy="960" r="480" stroke="#B22222" stroke-width="1.5" stroke-opacity="0.2"/>
+  </g>
+</svg>

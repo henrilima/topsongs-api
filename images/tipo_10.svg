@@ -1,0 +1,50 @@
+<svg width="1080" height="1920" viewBox="0 0 1080 1920" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="clip_tipo10">
+      <rect width="1080" height="1920" fill="white"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#clip_tipo10)">
+    <!-- Polyline constellation web -->
+    <path d="M120 180 L340 320 L220 540 L80 480 Z" stroke="#B22222" stroke-width="2" stroke-opacity="0.45"/>
+    <path d="M340 320 L680 220 L880 380 L620 510 Z" stroke="#B22222" stroke-width="2" stroke-opacity="0.5"/>
+    <path d="M880 380 L1020 280 L960 620 L780 740 Z" stroke="#B22222" stroke-width="2" stroke-opacity="0.4"/>
+    
+    <path d="M620 510 L780 740 L540 920 L310 780 Z" stroke="#B22222" stroke-width="2.5" stroke-opacity="0.55"/>
+    <path d="M220 540 L310 780 L150 960 L-20 840 Z" stroke="#B22222" stroke-width="2" stroke-opacity="0.4"/>
+
+    <path d="M540 920 L840 1060 L720 1340 L450 1250 Z" stroke="#B22222" stroke-width="2.5" stroke-opacity="0.6"/>
+    <path d="M150 960 L450 1250 L280 1520 L60 1380 Z" stroke="#B22222" stroke-width="2" stroke-opacity="0.45"/>
+
+    <path d="M720 1340 L980 1480 L860 1780 L580 1680 Z" stroke="#B22222" stroke-width="2.5" stroke-opacity="0.55"/>
+    <path d="M280 1520 L580 1680 L420 1900 L160 1820 Z" stroke="#B22222" stroke-width="2" stroke-opacity="0.45"/>
+
+    <!-- Cross connecting lines -->
+    <line x1="340" y1="320" x2="540" y2="920" stroke="#B22222" stroke-width="1.5" stroke-dasharray="6 8" stroke-opacity="0.3"/>
+    <line x1="880" y1="380" x2="450" y2="1250" stroke="#B22222" stroke-width="1.5" stroke-dasharray="6 8" stroke-opacity="0.3"/>
+    <line x1="220" y1="540" x2="720" y2="1340" stroke="#B22222" stroke-width="1.5" stroke-dasharray="6 8" stroke-opacity="0.25"/>
+    <line x1="780" y1="740" x2="280" y2="1520" stroke="#B22222" stroke-width="1.5" stroke-dasharray="6 8" stroke-opacity="0.25"/>
+
+    <!-- Constellation nodes / circles -->
+    <circle cx="120" cy="180" r="10" stroke="#B22222" stroke-width="3" stroke-opacity="0.8"/>
+    <circle cx="340" cy="320" r="14" stroke="#B22222" stroke-width="3" stroke-opacity="0.9"/>
+    <circle cx="680" cy="220" r="12" stroke="#B22222" stroke-width="3" stroke-opacity="0.85"/>
+    <circle cx="880" cy="380" r="16" stroke="#B22222" stroke-width="3.5" stroke-opacity="0.9"/>
+    <circle cx="1020" cy="280" r="8" stroke="#B22222" stroke-width="2" stroke-opacity="0.7"/>
+    <circle cx="220" cy="540" r="12" stroke="#B22222" stroke-width="3" stroke-opacity="0.8"/>
+    <circle cx="620" cy="510" r="15" stroke="#B22222" stroke-width="3" stroke-opacity="0.85"/>
+    <circle cx="960" cy="620" r="11" stroke="#B22222" stroke-width="2.5" stroke-opacity="0.75"/>
+    <circle cx="780" cy="740" r="18" stroke="#B22222" stroke-width="4" stroke-opacity="0.9"/>
+    <circle cx="310" cy="780" r="14" stroke="#B22222" stroke-width="3" stroke-opacity="0.8"/>
+    <circle cx="150" cy="960" r="16" stroke="#B22222" stroke-width="3.5" stroke-opacity="0.85"/>
+    <circle cx="540" cy="920" r="22" stroke="#B22222" stroke-width="4" stroke-opacity="0.95"/>
+    <circle cx="840" cy="1060" r="15" stroke="#B22222" stroke-width="3" stroke-opacity="0.85"/>
+    <circle cx="450" cy="1250" r="18" stroke="#B22222" stroke-width="4" stroke-opacity="0.9"/>
+    <circle cx="720" cy="1340" r="16" stroke="#B22222" stroke-width="3.5" stroke-opacity="0.85"/>
+    <circle cx="280" cy="1520" r="15" stroke="#B22222" stroke-width="3" stroke-opacity="0.8"/>
+    <circle cx="980" cy="1480" r="12" stroke="#B22222" stroke-width="3" stroke-opacity="0.75"/>
+    <circle cx="580" cy="1680" r="17" stroke="#B22222" stroke-width="3.5" stroke-opacity="0.9"/>
+    <circle cx="860" cy="1780" r="13" stroke="#B22222" stroke-width="3" stroke-opacity="0.8"/>
+    <circle cx="420" cy="1900" r="10" stroke="#B22222" stroke-width="2.5" stroke-opacity="0.7"/>
+  </g>
+</svg>
