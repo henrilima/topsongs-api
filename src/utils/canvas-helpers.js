@@ -145,20 +145,38 @@ export async function fetchImageBuffer(url) {
     }
 }
 
-// Renderiza um SVG diretamente no canvas com escala customizada (suporte dual: Buffer e Data URI)
-export async function drawSVG(ctx, svgString, x, y, width, height) {
+// Renderiza um SVG diretamente no canvas com suporte a escala cover (sem distorção/esticamento)
+export async function drawSVG(ctx, svgString, x, y, width, height, fit = "fill") {
     if (!svgString) return;
     try {
-        const img = await loadImage(Buffer.from(svgString));
-        ctx.drawImage(img, x, y, width, height);
-    } catch (e) {
+        let img = null;
         try {
-            // Fallback robusto para Data URI base64
+            img = await loadImage(Buffer.from(svgString));
+        } catch {
             const base64 = Buffer.from(svgString).toString("base64");
-            const img = await loadImage(`data:image/svg+xml;base64,${base64}`);
-            ctx.drawImage(img, x, y, width, height);
-        } catch (errFallback) {
-            console.warn("Aviso ao carregar SVG no canvas:", e.message, errFallback.message);
+            img = await loadImage(`data:image/svg+xml;base64,${base64}`);
         }
+
+        if (!img) return;
+
+        if (fit === "cover" && img.width && img.height) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(x, y, width, height);
+            ctx.clip();
+
+            const scale = Math.max(width / img.width, height / img.height);
+            const scaledW = img.width * scale;
+            const scaledH = img.height * scale;
+            const offsetX = x + (width - scaledW) / 2;
+            const offsetY = y + (height - scaledH) / 2;
+
+            ctx.drawImage(img, offsetX, offsetY, scaledW, scaledH);
+            ctx.restore();
+        } else {
+            ctx.drawImage(img, x, y, width, height);
+        }
+    } catch (e) {
+        console.warn("Aviso ao carregar SVG no canvas:", e.message);
     }
 }

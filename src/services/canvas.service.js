@@ -63,9 +63,9 @@ async function renderVerticalLayout(artist, songsList, artistImage, songImages, 
     // Padrão SVG
     if (svgInfo) {
         if (svgInfo.isType1) {
-            await drawSVG(ctx, svgInfo.svgData, 0, 433, 1080, 1700);
+            await drawSVG(ctx, svgInfo.svgData, 0, 433, 1080, 1700, "fill");
         } else {
-            await drawSVG(ctx, svgInfo.svgData, 0, 0, 1080, 1920);
+            await drawSVG(ctx, svgInfo.svgData, 0, 0, 1080, 1920, "cover");
         }
     }
 
@@ -144,9 +144,9 @@ async function renderHorizontalLayout(artist, songsList, artistImage, songImages
     ctx.fillStyle = artist.bodyColor || "#0E131F";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // SVG esticado para o canvas horizontal
+    // SVG com escala cover preservando proporção geométrica (sem esticar)
     if (svgInfo) {
-        await drawSVG(ctx, svgInfo.svgData, 0, 0, 1920, 1080);
+        await drawSVG(ctx, svgInfo.svgData, 0, 0, 1920, 1080, "cover");
     }
 
     // ---------------------------------------------------------------------
@@ -247,9 +247,9 @@ async function renderSquareLayout(artist, songsList, artistImage, songImages, sv
     ctx.fillStyle = artist.bodyColor || "#0E131F";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Padrão SVG
+    // Padrão SVG com escala cover preservando proporção geométrica (sem esticar)
     if (svgInfo) {
-        await drawSVG(ctx, svgInfo.svgData, 0, 0, 1080, 1080);
+        await drawSVG(ctx, svgInfo.svgData, 0, 0, 1080, 1080, "cover");
     }
 
     // ---------------------------------------------------------------------
