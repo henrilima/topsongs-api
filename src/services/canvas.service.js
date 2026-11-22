@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import { createCanvas, loadImage } from "@napi-rs/canvas";
-import { initFonts, getAssetPath, getColoredSVG } from "../utils/assets.js";
+import { initFonts, getColoredSVG, getNumbersBuffer } from "../utils/assets.js";
 import {
     drawTextWithEllipsis,
     drawAvatarShape,
@@ -70,15 +70,14 @@ async function renderVerticalLayout(artist, songsList, artistImage, songImages, 
     }
 
     // Numeração original da esquerda se o padrão for tipo 1 ou legado
-    const numbersPath = getAssetPath("images", "numbers.png");
-    if (fs.existsSync(numbersPath)) {
-        try {
-            const numbersBuffer = fs.readFileSync(numbersPath);
+    try {
+        const numbersBuffer = getNumbersBuffer();
+        if (numbersBuffer) {
             const numbersImage = await loadImage(numbersBuffer);
             ctx.drawImage(numbersImage, 85, 1025, 80, 700);
-        } catch {
-            // Silencioso se numbers.png não puder ser lido
         }
+    } catch {
+        // Silencioso se numbers não puder ser lido
     }
 
     // Watermark

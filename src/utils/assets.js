@@ -2,85 +2,55 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { GlobalFonts } from "@napi-rs/canvas";
+import { MONTSERRAT_BASE64 } from "../assets/font-data.js";
+import { SVG_PATTERNS, NUMBERS_BASE64 } from "../assets/svg-patterns.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Referências estáticas literais para garantir que o `@vercel/nft` (Node File Trace)
-// reconheça e empacote todos os assets estáticos no bundle da Serverless Function da Vercel
-const STATIC_ASSET_PATHS = [
-    path.join(process.cwd(), "fonts/Montserrat.ttf"),
-    path.join(__dirname, "../../fonts/Montserrat.ttf"),
-    path.join(process.cwd(), "images/numbers.png"),
-    path.join(process.cwd(), "images/tipo.svg"),
-    path.join(process.cwd(), "images/tipo_2.svg"),
-    path.join(process.cwd(), "images/tipo_3.svg"),
-    path.join(process.cwd(), "images/tipo_4.svg"),
-    path.join(process.cwd(), "images/tipo_5.svg"),
-    path.join(process.cwd(), "images/tipo_6.svg"),
-    path.join(process.cwd(), "images/tipo_7.svg"),
-    path.join(process.cwd(), "images/tipo_8.svg"),
-    path.join(process.cwd(), "images/tipo_9.svg"),
-    path.join(process.cwd(), "images/tipo_10.svg"),
-    path.join(process.cwd(), "images/tipo_11.svg"),
-    path.join(process.cwd(), "images/tipo_12.svg"),
-    path.join(__dirname, "../../images/numbers.png"),
-    path.join(__dirname, "../../images/tipo.svg"),
-];
-
-// Busca caminho de assets de forma compatível com execução Local e Serverless (AWS Lambda / Vercel)
-export function getAssetPath(...segments) {
-    const candidateBases = [
-        process.cwd(),
-        path.join(process.cwd(), "topsongs-api"),
-        path.resolve(__dirname, "..", ".."),
-        path.resolve(__dirname, ".."),
-        path.resolve(__dirname),
-        "/var/task",
-        "/var/task/topsongs-api",
-    ];
-
-    for (const base of candidateBases) {
-        try {
-            const candidate = path.join(base, ...segments);
-            if (fs.existsSync(candidate)) {
-                return candidate;
-            }
-        } catch {
-            // Continua testando
+// Retorna o buffer da imagem de números com fallback embutido
+export function getNumbersBuffer() {
+    try {
+        const localPath = path.join(process.cwd(), "images", "numbers.png");
+        if (fs.existsSync(localPath)) {
+            return fs.readFileSync(localPath);
         }
+    } catch {
+        // Usa buffer embutido
     }
-
-    return path.join(process.cwd(), ...segments);
+    return Buffer.from(NUMBERS_BASE64, "base64");
 }
 
-// Inicializa a fonte Montserrat de forma resiliente
+// Inicializa a fonte Montserrat de forma 100% à prova de falhas
 export function initFonts() {
     try {
         if (GlobalFonts.has("Montserrat")) {
             return true;
         }
 
-        const candidatePaths = [
-            path.join(process.cwd(), "fonts/Montserrat.ttf"),
+        // 1. Tenta carregar do disco local se disponível
+        const localPaths = [
             path.join(process.cwd(), "fonts", "Montserrat.ttf"),
-            path.join(__dirname, "../../fonts/Montserrat.ttf"),
-            path.join(__dirname, "../fonts/Montserrat.ttf"),
-            path.join(__dirname, "fonts/Montserrat.ttf"),
-            "/var/task/fonts/Montserrat.ttf",
-            "/var/task/topsongs-api/fonts/Montserrat.ttf",
+            path.join(__dirname, "..", "..", "fonts", "Montserrat.ttf"),
         ];
 
-        for (const fontPath of candidatePaths) {
+        for (const fontPath of localPaths) {
             try {
                 if (fs.existsSync(fontPath)) {
-                    const buffer = fs.readFileSync(fontPath);
-                    GlobalFonts.register(buffer, "Montserrat");
+                    const buf = fs.readFileSync(fontPath);
+                    GlobalFonts.register(buf, "Montserrat");
                     return true;
                 }
             } catch {
                 // Tenta próximo
             }
+        }
+
+        // 2. Fallback INFALÍVEL embutido (Base64 compilado no código)
+        if (MONTSERRAT_BASE64) {
+            const fontBuffer = Buffer.from(MONTSERRAT_BASE64, "base64");
+            GlobalFonts.register(fontBuffer, "Montserrat");
+            return true;
         }
     } catch (err) {
         console.warn("Aviso ao inicializar fontes:", err.message);
@@ -92,32 +62,22 @@ export function initFonts() {
 export function getColoredSVG(svgType = "1", colorHex = "b22222", opacity = "20") {
     const svgFillList = ["3", "4"];
     let typeStr = String(svgType || "1");
-    let svgFileName = `tipo${typeStr === "1" ? "" : `_${typeStr}`}.svg`;
 
-    const candidatePaths = [
-        path.join(process.cwd(), "images", svgFileName),
-        path.join(process.cwd(), "images/" + svgFileName),
-        path.join(__dirname, "../../images", svgFileName),
-        path.join(__dirname, "../../images/" + svgFileName),
-        path.join(__dirname, "../images", svgFileName),
-        `/var/task/images/${svgFileName}`,
-        `/var/task/topsongs-api/images/${svgFileName}`,
-        // Fallbacks
-        path.join(process.cwd(), "images/tipo.svg"),
-        path.join(__dirname, "../../images/tipo.svg"),
-        "/var/task/images/tipo.svg",
-    ];
-
+    // 1. Tenta ler do disco local
     let svg = null;
-    for (const p of candidatePaths) {
-        try {
-            if (fs.existsSync(p)) {
-                svg = fs.readFileSync(p, "utf8");
-                break;
-            }
-        } catch {
-            // Continua
+    try {
+        const svgFileName = `tipo${typeStr === "1" ? "" : `_${typeStr}`}.svg`;
+        const localPath = path.join(process.cwd(), "images", svgFileName);
+        if (fs.existsSync(localPath)) {
+            svg = fs.readFileSync(localPath, "utf8");
         }
+    } catch {
+        // Fallback para embutido
+    }
+
+    // 2. Fallback INFALÍVEL embutido (Strings de SVG compiladas no bundle)
+    if (!svg) {
+        svg = SVG_PATTERNS[typeStr] || SVG_PATTERNS["1"] || null;
     }
 
     if (!svg) {

@@ -3,7 +3,7 @@ import cors from "cors";
 import fs from "node:fs";
 import path from "node:path";
 import { GlobalFonts } from "@napi-rs/canvas";
-import { getAssetPath } from "./utils/assets.js";
+import { initFonts, getColoredSVG } from "./utils/assets.js";
 
 import deezerRoutes from "./routes/deezer.routes.js";
 import topsongsRoutes from "./routes/topsongs.routes.js";
@@ -18,18 +18,13 @@ app.use(express.json());
 // Rota de diagnóstico
 app.get("/debug", (req, res) => {
     try {
-        const cwd = process.cwd();
-        const fontPath = getAssetPath("fonts", "Montserrat.ttf");
-        const svgPath = getAssetPath("images", "tipo.svg");
+        const fontInitSuccess = initFonts();
+        const testSvg = getColoredSVG("2", "3498db", "25");
         res.json({
-            cwd,
-            cwdFiles: fs.existsSync(cwd) ? fs.readdirSync(cwd) : [],
-            taskFiles: fs.existsSync("/var/task") ? fs.readdirSync("/var/task") : [],
-            fontPath,
-            fontExists: fs.existsSync(fontPath),
-            svgPath,
-            svgExists: fs.existsSync(svgPath),
-            globalFonts: GlobalFonts.families ? GlobalFonts.families : [],
+            hasMontserrat: GlobalFonts.has("Montserrat"),
+            fontInitSuccess,
+            hasSvg: Boolean(testSvg && testSvg.svgData),
+            globalFonts: GlobalFonts.families || [],
         });
     } catch (e) {
         res.status(500).json({ error: e.message, stack: e.stack });
